@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 class ProductService
 {
     public static int $numberOfExistingProducts = 100;
+    private static int $stopRandomizing = 50;
 
     /**
      * @throws Exception
@@ -31,7 +32,7 @@ class ProductService
         }
 
         // When lots of products have already been added, take the first one that is not in the list
-        if(count($except) >= 20) {
+        if(count($except) >= static::$stopRandomizing) {
             $productId = 0;
             for ($i = 1; $i <= static::$numberOfExistingProducts; $i++) {
                 if (!in_array($i, $except)) {

@@ -6,4 +6,10 @@
     @if($cart?->cartProducts)
         @json($cart->cartProducts)
     @endif
+    <p>
+        Give me
+        <input type="number" wire:model="numberOfSurpriseProductsToAdd" min="1" max="10">
+        surprise(s)!
+        <button wire:click="addSurpriseProducts">Add a surprise Product</button>
+    </p>
 </div>

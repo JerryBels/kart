@@ -8,6 +8,7 @@ use Livewire\Component;
 class Kart extends Component
 {
     public ?Cart $cart = null;
+    public int $numberOfSurpriseProductsToAdd = 1;
 
     private int $numberOfProductsByDefault = 2;
 
@@ -21,19 +22,21 @@ class Kart extends Component
     public function loadCartIfNew()
     {
         if (is_null($this->cart)) {
-            $this->initNewCart();
+            $cart = Cart::create([
+                'uuid' => uniqid(),
+            ]);
+
+            session(['uuid' => $cart->uuid]);
+            $cart->addRandomProducts($this->numberOfProductsByDefault);
+            $cart->refresh();
+            $this->cart = $cart;
         }
     }
 
-    public function initNewCart()
+    public function addSurpriseProducts()
     {
-        $cart = Cart::create([
-            'uuid' => uniqid(),
-        ]);
-        session(['uuid' => $cart->uuid]);
-        $cart->addRandomProducts($this->numberOfProductsByDefault);
-        $cart->refresh();
-        $this->cart = $cart;
+        $this->cart->addRandomProducts($this->numberOfSurpriseProductsToAdd);
+        $this->cart->refresh();
     }
 
     public function render()
