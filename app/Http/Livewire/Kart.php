@@ -10,9 +10,7 @@ class Kart extends Component
     public ?Cart $cart = null;
     public int $numberOfSurpriseProductsToAdd = 1;
 
-    private int $numberOfProductsByDefault = 2;
-
-    protected $listeners = ['cartInitialized' => '$refresh'];
+    public static int $numberOfProductsByDefault = 2;
 
     public function mount()
     {
@@ -27,8 +25,7 @@ class Kart extends Component
             ]);
 
             session(['uuid' => $cart->uuid]);
-            $cart->addRandomProducts($this->numberOfProductsByDefault);
-            $cart->refresh();
+            $cart->addRandomProducts(static::$numberOfProductsByDefault);
             $this->cart = $cart;
         }
     }
@@ -36,7 +33,6 @@ class Kart extends Component
     public function addSurpriseProducts()
     {
         $this->cart->addRandomProducts($this->numberOfSurpriseProductsToAdd);
-        $this->cart->refresh();
     }
 
     public function render()

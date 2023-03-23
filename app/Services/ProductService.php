@@ -10,6 +10,10 @@ class ProductService
     public static int $numberOfExistingProducts = 100;
     private static int $stopRandomizing = 50;
 
+    public static string $baseUrl = 'https://dummyjson.com/';
+
+    public static string $productsEndpoint = 'products/';
+
     /**
      * @throws Exception
      */
@@ -17,7 +21,7 @@ class ProductService
     {
         $randomProductId = static::randomAvailableId($except);
 
-        $response = Http::get('https://dummyjson.com/products/' . $randomProductId);
+        $response = Http::get(static::$baseUrl . static::$productsEndpoint . $randomProductId);
 
         return $response->object();
     }
