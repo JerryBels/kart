@@ -21,7 +21,7 @@
                             <label for="numberOfSurpriseProductsToAdd">I want</label>
                             <input class="newSurprisesButton" type="number" wire:model="numberOfSurpriseProductsToAdd" id="numberOfSurpriseProductsToAdd" min="1" max="9">
                             more surprise(s)!
-                            <button class="btn btn-primary" wire:click="addSurpriseProducts">Go!</button>
+                            <button class="btn btn-primary" wire:click="addSurpriseProducts" data-bs-toggle="tooltip" data-bs-title="I'm feeling lucky!">Go!</button>
                         </div>
                     </div>
                 </div>
