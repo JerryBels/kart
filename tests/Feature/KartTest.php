@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Http\Livewire\Kart;
 use App\Models\Cart;
+use App\Models\CartProduct;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -49,10 +50,46 @@ class KartTest extends TestCase
         $cart = Cart::factory()->create();
         $this->session(['uuid' => $cart->uuid]);
 
-        $response = Livewire::test(Kart::class)
+        Livewire::test(Kart::class)
             ->set('numberOfSurpriseProductsToAdd', 3)
             ->call('addSurpriseProducts');
 
         $this->assertDatabaseCount('cart_products', 3);
+    }
+
+    public function testUserCanRemoveProduct()
+    {
+        $cart = Cart::factory()->create();
+        $cartProduct = CartProduct::factory(['cart_id' => $cart->id])->create();
+        $this->session(['uuid' => $cart->uuid]);
+
+        Livewire::test(Kart::class)
+            ->call('removeProduct', $cartProduct->id);
+
+        $this->assertDatabaseCount('cart_products', 0);
+    }
+
+    public function testUserCanIncrementProduct()
+    {
+        $cart = Cart::factory()->create();
+        $cartProduct = CartProduct::factory(['cart_id' => $cart->id, 'quantity' => 2])->create();
+        $this->session(['uuid' => $cart->uuid]);
+
+        Livewire::test(Kart::class)
+            ->call('incrementProduct', $cartProduct->id);
+
+        $this->assertSame(3, $cart->cartProducts->where('id', 1)->first()->quantity);
+    }
+
+    public function testUserCanDecrementProduct()
+    {
+        $cart = Cart::factory()->create();
+        $cartProduct = CartProduct::factory(['cart_id' => $cart->id, 'quantity' => 2])->create();
+        $this->session(['uuid' => $cart->uuid]);
+
+        Livewire::test(Kart::class)
+            ->call('decrementProduct', $cartProduct->id);
+
+        $this->assertSame(1, $cart->cartProducts->where('id', 1)->first()->quantity);
     }
 }

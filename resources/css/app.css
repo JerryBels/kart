@@ -1,0 +1,26 @@
+.img-container {
+    height: 200px;
+    width: 100%;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+
+.text-truncate-container p {
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-text {
+    height: 72px;
+}
+
+.w-inherit {
+    width: inherit;
+}
+
+.newSurprisesButton {
+    width: 35px;
+}
